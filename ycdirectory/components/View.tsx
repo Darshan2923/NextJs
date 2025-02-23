@@ -1,13 +1,28 @@
-import React from 'react'
-import Ping from './Ping'
-import { client } from '@/sanity/lib/client'
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import Ping from './Ping';
+import { client } from '@/sanity/lib/client';
 import { STARTUP_VIEW_QUERY } from '@/sanity/lib/queries';
 
-const View = async ({ id }: { id: string }) => {
+const View = ({ id }: { id: string }) => {
+    const [totalViews, setTotalViews] = useState(0);
 
-    const { views: totalViews } = await client.withConfig({ useCdn: false }).fetch(STARTUP_VIEW_QUERY, { id });
+    useEffect(() => {
+        const fetchViews = async () => {
+            const { views } = await client.withConfig({ useCdn: false }).fetch(STARTUP_VIEW_QUERY, { id });
+            setTotalViews(views);
 
-    // TODO: Update the number of views
+            // Call API route instead of writeClient directly
+            await fetch('/api/updateViews', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, views }),
+            });
+        };
+
+        fetchViews();
+    }, [id]);
 
     return (
         <div className='view-container'>
@@ -18,7 +33,7 @@ const View = async ({ id }: { id: string }) => {
                 <span className="font-black">Views: {totalViews}</span>
             </p>
         </div>
-    )
-}
+    );
+};
 
-export default View
+export default View;
