@@ -1,10 +1,11 @@
-import { formatDate } from '@/lib/utils'
+import { cn, formatDate } from '@/lib/utils'
 import { EyeIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { Button } from './ui/button'
 import { Author, Startup } from '@/types'
+import { Skeleton } from './ui/skeleton'
 // import { StartupTypeCard } from '@/types/index'
 
 export type StartupTypeCard = Omit<Startup, "author"> & { author?: Author };
@@ -22,7 +23,7 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
     } = post;
 
     return (
-        <li className="startup-card group">
+        <li className="startup-card mb-5 group">
             <div className="flex-between">
                 <p className="startup_card_date">{formatDate(_createdAt)}</p>
                 <div className="flex gap-1.5">
@@ -69,5 +70,15 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
         </li>
     );
 };
+
+export const StartupCardSkeleton = () => (
+    <>
+        {[0, 1, 2, 3, 4].map((index: number) => (
+            <li key={cn("skeleton", index)}>
+                <Skeleton className="startup-card_skeleton" />
+            </li>
+        ))}
+    </>
+);
 
 export default StartupCard
