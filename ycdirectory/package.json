@@ -9,11 +9,6 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "packageManager": "npm@10.5.2",
-  "overrides": {
-    "react": "$react",
-    "react-dom": "$react-dom"
-  },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.2",
     "@sanity/image-url": "^1.1.0",
@@ -21,12 +16,14 @@
     "@tailwindcss/typography": "^0.5.16",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "easymde": "^2.19.0",
     "lucide-react": "^0.475.0",
-    "next": "15.1.7",
+    "markdown-it": "^14.1.0",
+    "next": "^15.2.0-canary.70",
     "next-auth": "^5.0.0-beta.25",
     "next-sanity": "^9.8.59",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "18.3",
+    "react-dom": "18.3",
     "react-is": "^19.0.0",
     "sanity": "^3.76.3",
     "sanity-plugin-markdown": "^5.0.0",
@@ -37,6 +34,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/markdown-it": "^14.1.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

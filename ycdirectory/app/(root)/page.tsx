@@ -12,7 +12,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
   const params = { search: query || null };
 
   // const posts = await client.fetch(STARTUPS_QUERY);
-  const { data: posts } = await sanityFetch({ query: STARTUPS_QUERY });
+  const { data: posts } = await sanityFetch({ query: STARTUPS_QUERY, params });
 
   // null, 2 is just for spacing
   // console.log(JSON.stringify(posts, null, 2));
