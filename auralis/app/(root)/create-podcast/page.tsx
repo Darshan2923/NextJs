@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -30,6 +29,7 @@ import { useState } from "react"
 import { Textarea } from "@/components/ui/textarea"
 import GeneratePodcast from "@/components/GeneratePodcast"
 import GenerateThumbnail from "@/components/GenerateThumbnail"
+import GenerateScript from "@/components/GenerateScript"
 import { Loader } from "lucide-react"
 import { Id } from "@/convex/_generated/dataModel"
 import { VoiceType } from "@/types"
@@ -136,6 +136,8 @@ export default function ProfileForm() {
                         />
                     </div>
                     <div className="flex flex-col pt-10">
+                        <GenerateScript setScript={(script) => form.setValue("podcastDescription", script)} />
+
                         <GeneratePodcast
                             setAudioStorageId={setAudioStorageId}
                             setAudio={setAudioUrl}
