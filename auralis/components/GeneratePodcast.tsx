@@ -6,14 +6,14 @@ import { Button } from './ui/button'
 import { Loader } from 'lucide-react'
 import { useAction, useMutation } from 'convex/react'
 import { api } from '@/convex/_generated/api'
-import { v4 as uuidv4 } from 'uuid'
-import { generateUploadUrl } from '@/convex/files'
-import { toast } from 'sonner';
+import { v4 as uuidv4 } from 'uuid';
+import { toast } from "sonner"
 
-import { useUploadFiles } from '@xixixao/uploadstuff/react'
+import { useUploadFiles } from '@xixixao/uploadstuff/react';
 
-const useGeneratePodcast = ({ setAudio, voiceType, voicePrompt, setAudioStorageId }: GeneratePodcastProps) => {
-    // Logic for podcast generation
+const useGeneratePodcast = ({
+    setAudio, voiceType, voicePrompt, setAudioStorageId
+}: GeneratePodcastProps) => {
     const [isGenerating, setIsGenerating] = useState(false);
 
     const generateUploadUrl = useMutation(api.files.generateUploadUrl);
@@ -22,12 +22,13 @@ const useGeneratePodcast = ({ setAudio, voiceType, voicePrompt, setAudioStorageI
     const getPodcastAudio = useAction(api.openai.generateAudioAction)
 
     const getAudioUrl = useMutation(api.podcasts.getUrl);
+
     const generatePodcast = async () => {
         setIsGenerating(true);
         setAudio('');
 
         if (!voicePrompt) {
-            toast.error('Please provide a voice to generate a podcast or put in some input prompt');
+            toast.error("Please provide a voiceType to generate a podcast");
             return setIsGenerating(false);
         }
 
@@ -49,10 +50,10 @@ const useGeneratePodcast = ({ setAudio, voiceType, voicePrompt, setAudioStorageI
             const audioUrl = await getAudioUrl({ storageId });
             setAudio(audioUrl!);
             setIsGenerating(false);
-            toast.success('Podcast generated successfully');
+            toast.success("Podcast generated successfully");
         } catch (error) {
             console.log('Error generating podcast', error)
-            toast.error('Error generating podcast');
+            toast.error("Error creating a podcast");
             setIsGenerating(false);
         }
 
@@ -61,21 +62,22 @@ const useGeneratePodcast = ({ setAudio, voiceType, voicePrompt, setAudioStorageI
     return { isGenerating, generatePodcast }
 }
 
-const GeneratePodcast = ({ setAudioStorageId,
-    setAudio,
-    voiceType,
-    audio,
-    voicePrompt,
-    setVoicePrompt,
-    setAudioDuration }: GeneratePodcastProps) => {
-
-    const { isGenerating, generatePodcast } = useGeneratePodcast({ setAudioStorageId, setAudio, voiceType, audio, voicePrompt, setVoicePrompt, setAudioDuration })
+const GeneratePodcast = (props: GeneratePodcastProps) => {
+    const { isGenerating, generatePodcast } = useGeneratePodcast(props);
 
     return (
         <div>
             <div className="flex flex-col gap-2.5">
-                <Label className='text-16 font-bold text-white-1'> AI Prompt to generate Podcast</Label>
-                <Textarea className='input-class font-light focus-visible:ring-offset-blue-1' placeholder='Provide text to generate audio' rows={5} value={voicePrompt} onChange={(e) => setVoicePrompt(e.target.value)} />
+                <Label className="text-16 font-bold text-white-1">
+                    AI Prompt to generate Podcast
+                </Label>
+                <Textarea
+                    className="input-class font-light focus-visible:ring-offset-orange-1"
+                    placeholder='Provide text to generate audio'
+                    rows={5}
+                    value={props.voicePrompt}
+                    onChange={(e) => props.setVoicePrompt(e.target.value)}
+                />
             </div>
             <div className="mt-5 w-full max-w-[200px]">
                 <Button type="submit" className="text-16 bg-blue-1 py-4 font-bold text-white-1" onClick={generatePodcast}>
@@ -89,17 +91,15 @@ const GeneratePodcast = ({ setAudioStorageId,
                     )}
                 </Button>
             </div>
-            {audio && (
+            {props.audio && (
                 <audio
                     controls
-                    src={audio}
+                    src={props.audio}
                     autoPlay
-                    className='mt-5'
-                    onLoadedMetadata={(e) => setAudioDuration(e.currentTarget.duration)}
-
+                    className="mt-5"
+                    onLoadedMetadata={(e) => props.setAudioDuration(e.currentTarget.duration)}
                 />
             )}
-
         </div>
     )
 }
