@@ -6,11 +6,15 @@ import SelectDuration from './_components/SelectDuration'
 import { Button } from '@/components/ui/button'
 import axios from 'axios'
 import CustomLoading from './_components/CustomLoading'
+import { v4 as uuidv4 } from 'uuid';
 
 const CreateNew = () => {
 
     const [formData, setFormData] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [videoScript, setVideoScript] = useState();
+    const [audioFileUrl, setAudioFileUrl] = useState();
+    const [caption, setCaption] = useState();
 
     const onHandleInputChange = (fieldName, fieldValue) => {
         console.log(fieldName, fieldValue);
@@ -32,6 +36,8 @@ const CreateNew = () => {
                 prompt: prompt
             });
             console.log('API response:', result.data.result);
+            setVideoScript(result.data.result);
+            GenerateAudioFile(result.data.result);
         } catch (e) {
             console.error('Error fetching video script:', e);
             if (e.response) {
@@ -42,6 +48,43 @@ const CreateNew = () => {
                 console.error('Error message:', e.message);
             }
         }
+        setLoading(false);
+    }
+
+    const GenerateAudioFile = async (videoScriptData) => {
+        setLoading(true);
+        let script = '';
+        const id = uuidv4();
+        videoScriptData.forEach(item => {
+            script += item.ContentText + ' ';
+        });
+
+        await axios.post('/api/generate-audio', {
+            text: script,
+            id: id
+        }).then((response) => {
+            console.log('Audio file generated:', response.data);
+            setAudioFileUrl(response.data.result);
+            GenerateAudioCaption(response.data.result);
+        }).catch((error) => {
+            console.error('Error generating audio file:', error);
+        });
+
+        console.log(script);
+        setLoading(false);
+
+    }
+
+    const GenerateAudioCaption = async (fileUrl) => {
+        setLoading(true);
+        await axios.post('/api/generate-caption', {
+            audioFileUrl: fileUrl
+        }).then((response) => {
+            console.log('Caption generated:', response.data.result);
+            setCaption(response.data.result);
+        }).catch((error) => {
+            console.error('Error generating caption:', error);
+        });
         setLoading(false);
     }
 
