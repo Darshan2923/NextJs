@@ -1,3 +1,4 @@
+"use client"
 import React from 'react';
 import {
     DropdownMenu,
@@ -8,16 +9,25 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import UserAvatar from './UserAvatar';
+import { Session } from 'next-auth';
+import { signInWithGoogle } from '@/server-actions';
 
+const UserButton = ({ session }: { session: Session | null }) => {
 
-const UserButton = () => {
+    if (!session) {
+        return (
+            <form
+                action={signInWithGoogle}
+            >
+                <button type="submit">SignIn</button>
+            </form>
+        );
+    }
 
-    // Session...
-
-    return (
+    return session && (
         <DropdownMenu>
             <DropdownMenuTrigger>
-                <UserAvatar name='Darshan Patel' image='https://github.com/shadcn.png' />
+                <UserAvatar name={session.user?.name} image={session.user?.image} />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>

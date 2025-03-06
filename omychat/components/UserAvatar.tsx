@@ -6,8 +6,8 @@ import Image from 'next/image';
 const UserAvatar = ({
     name, image, className
 }: {
-    name: string;
-    image: string;
+    name?: string | null;
+    image?: string | null;
     className?: string;
 }) => {
     return (
@@ -15,7 +15,7 @@ const UserAvatar = ({
             {image && (
                 <Image
                     src={image}
-                    alt={name}
+                    alt={name || "User Name"}
                     width={40}
                     height={40}
                     referrerPolicy='no-referrer'
