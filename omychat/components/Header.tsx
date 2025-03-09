@@ -6,6 +6,7 @@ import UserButton from './UserButton'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { MessagesSquareIcon } from 'lucide-react'
+import CreateChatButton from './CreateChatButton'
 
 const Header = () => {
     const { data: session } = useSession()
@@ -24,6 +25,7 @@ const Header = () => {
                             <Link href={'/chat'} prefetch={false}>
                                 <MessagesSquareIcon className='text-black dark:text-white' />
                             </Link>
+                            <CreateChatButton />
                         </>
                     ) : (
                         <Link href='/pricing'>

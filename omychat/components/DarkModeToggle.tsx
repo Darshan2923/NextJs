@@ -21,7 +21,7 @@ export default function DarkModeToggle() {
     }, [])
 
     if (!mounted) {
-        return null
+        return <Button variant="outline" size="icon" aria-hidden="true" />;
     }
 
     return (
