@@ -1,8 +1,11 @@
+
 import Image from "next/image";
 import Link from "next/link";
 import DemoGif from '@/images/landingPage/landingPage.png'
+import { useSession } from "next-auth/react";
 
 export default function Home() {
+
   return (
     <main className="">
       <div className="relative isolate pt-14 dark:bg-gray-900">
