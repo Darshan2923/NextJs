@@ -10,6 +10,7 @@ const CheckoutButton = () => {
 
         // push a document into the firebase database...
 
+
         // ... stripe extension on firebase will create a checkout session
 
         // redirect user to checkout page
