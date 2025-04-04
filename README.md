@@ -1,6 +1,6 @@
 # Next.js Projects Repository
 
-Welcome to my Next.js projects repository! 🚀 This repository showcases a collection of web applications built using **Next.js**, a powerful React framework for server-side rendering, static site generation, and more.
+Welcome to my Next.js projects repository! 🚀 This repository showcases a collection of web applications built using **Next.js**, a powerful React framework for server-side rendering, static site generation, and more. 
 
 ## 📂 Project Structure
 
