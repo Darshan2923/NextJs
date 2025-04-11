@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "1bf79c57-ff68-4e4f-adff-9e5c220416ec",
-  "prevId": "efeb6858-1799-45bc-b440-63e642c3746d",
+  "id": "310aa732-879d-43d5-91ab-1fcd899c75dc",
+  "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "files": {
       "name": "files",
