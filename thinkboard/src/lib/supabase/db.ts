@@ -5,8 +5,6 @@ import * as schema from '../../../migrations/schema';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
 
 dotenv.config({ path: '.env' });
-console.log('🔍 Loaded DB URL:', process.env.DATABASE_URL);
-
 
 if (!process.env.DATABASE_URL) {
     console.log('🔴 Cannot find database url');
