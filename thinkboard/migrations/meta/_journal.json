@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1744350334233,
+      "tag": "0000_bright_roxanne_simpson",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1744350796847,
+      "tag": "0001_late_ghost_rider",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1744354442622,
+      "tag": "0002_chemical_hydra",
+      "breakpoints": true
+    }
+  ]
+}
