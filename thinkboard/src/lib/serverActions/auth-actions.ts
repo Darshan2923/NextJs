@@ -1,21 +1,20 @@
 'use server';
 
+import { z } from 'zod';
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
-import { z } from 'zod';
-import { FormSchema } from '@/lib/types';
-import { revalidatePath } from 'next/cache';
+import { FormSchema } from '../types';
 
 export async function actionLoginUser({
     email,
     password,
 }: z.infer<typeof FormSchema>) {
-    const supabase = createRouteHandlerClient({ cookies });
-    const response = await supabase.auth.signInWithPassword({
-        email,
-        password,
+    const cookieStore = await cookies(); // ✅ await is required
+    const supabase = createRouteHandlerClient({
+        cookies: () => cookieStore, // ✅ wrap in function
     });
 
+    const response = await supabase.auth.signInWithPassword({ email, password });
     return response;
 }
 
@@ -23,19 +22,26 @@ export async function actionSignUpUser({
     email,
     password,
 }: z.infer<typeof FormSchema>) {
-    const supabase = createRouteHandlerClient({ cookies });
+    const cookieStore = await cookies();
+    const supabase = createRouteHandlerClient({
+        cookies: () => cookieStore,
+    });
 
     const { data } = await supabase
         .from('profiles')
         .select('*')
         .eq('email', email);
 
-    if (data?.length) return { error: { message: 'User already exists' }, data };
+    if (data?.length) {
+        return { error: { message: 'User already exists', data } };
+    }
 
     const response = await supabase.auth.signUp({
         email,
         password,
-        options: { emailRedirectTo: `http://localhost:3000/api/auth/callback` },
+        options: {
+            emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/callback`,
+        },
     });
 
     return response;
