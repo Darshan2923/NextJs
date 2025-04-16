@@ -41,7 +41,15 @@ const Agent = ({ userName, userId, type }: AgentProps) => {
         const onSpeechStart = () => setIsSpeaking(true);
         const onSpeechEnd = () => setIsSpeaking(false);
 
-        const onError = (error: Error) => console.log('Error: ', error);
+        const onError = (error: Error) => {
+            // Filter out harmless "meeting has ended" message
+            if (error.message === 'Meeting has ended') {
+                console.log('[Info] Meeting ended gracefully.');
+            } else {
+                console.error('[Unexpected Error]', error.message);
+            }
+        };
+
 
         vapi.on('call-start', onCallStart);
         vapi.on('call-end', onCallEnd);

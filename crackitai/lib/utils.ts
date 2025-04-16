@@ -1,4 +1,4 @@
-import { interviewCovers, mappings } from "../constants/index";
+import { interviewCovers, mappings } from "@/constants";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -10,7 +10,7 @@ const techIconBaseURL = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons";
 
 const normalizeTechName = (tech: string) => {
   const key = tech.toLowerCase().replace(/\.js$/, "").replace(/\s+/g, "");
-  return mappings[key as keyof typeof mappings];
+  return mappings[key as keyof typeof mappings] ?? key;
 };
 
 const checkIconExists = async (url: string) => {
@@ -22,7 +22,7 @@ const checkIconExists = async (url: string) => {
   }
 };
 
-export const getTechLogos = async (techArray: string[]) => {
+export const getTechLogos = async (techArray: string[] = []) => {
   const logoURLs = techArray.map((tech) => {
     const normalized = normalizeTechName(tech);
     return {
